@@ -29,16 +29,4 @@ public class TreeFacade {
         return ImmutableTree.builder();
     }
 
-    public void itemHoopla(){
-        ItemRepository items = new ItemRepository(
-                RepositorySetup.forUri("mongodb://localhost/test"));
-
-        Item item = ImmutableItem.builder()
-                .id(1)
-                .name("one")
-                .addValues(1, 2)
-                .build();
-
-        items.insert(item);
-    }
 }
