@@ -64,8 +64,7 @@ public class Main {
 
     private void printForest() {
         try {
-            List<Tree> list = treeFacade.listAllTrees();
-            for (Tree t: list) {
+            for (Tree t:treeFacade.listAllTrees()) {
                 System.out.println(t.toString());
             }
         } catch (Exception e) {
