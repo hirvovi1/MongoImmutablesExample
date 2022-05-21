@@ -42,48 +42,5 @@ public class Main {
         treeFacade.addOrUpdate(tree);
     }
 
-    private MongoClient getMongoClient(String uri) {
-        return MongoClients.create(uri);
-    }
-
-    private void ping(MongoClient mongoClient) {
-        MongoDatabase database = mongoClient.getDatabase("admin");
-        try {
-            Bson command = new BsonDocument("ping", new BsonInt64(1));
-            Document commandResult = database.runCommand(command);
-            System.out.println("Connected successfully to server: " +commandResult);
-        } catch (MongoException me) {
-            System.err.println("An error occurred while attempting to run a command: " + me);
-        }
-    }
-
-    public void pojoTraining(){
-//        try (MongoClient mongoClient = getMongoClient(CONNECTIONS_STRING)) {
-//            CodecProvider pojoCodecProvider = getCodecProvider(Collections.EMPTY_LIST);
-//            CodecRegistry pojoCodecRegistry =
-//                    fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
-//            String databaseName = "sample_pojos";
-//            MongoDatabase database = getDatabase(mongoClient, pojoCodecRegistry, databaseName);
-//
-//            MongoCollection<Flower> collection = database.getCollection("flowers", FlowerImpl.class);
-//            Flower flower =
-//                    new FlowerImpl("rose", false, 25.4f, Arrays.asList(new String[] {"red", "green"}));
-//
-//            collection.insertOne(flower);
-//
-//            List<Flower> flowers = new ArrayList<>();
-//            collection.find().into(flowers);
-//            System.out.println(flowers);
-//        }
-    }
-
-    private MongoDatabase getDatabase(MongoClient mongoClient, CodecRegistry pojoCodecRegistry, String databaseName) {
-        return mongoClient.getDatabase(databaseName).withCodecRegistry(pojoCodecRegistry);
-    }
-
-
-    private CodecProvider getCodecProvider(List<Convention> conventions) {
-        return PojoCodecProvider.builder().conventions(conventions).automatic(true).build();
-    }
 
 }
