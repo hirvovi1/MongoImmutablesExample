@@ -1,20 +1,9 @@
 package fi.mongo.training;
 
-import com.mongodb.MongoException;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import org.bson.BsonDocument;
-import org.bson.BsonInt64;
-import org.bson.Document;
-import org.bson.codecs.configuration.CodecProvider;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.Convention;
-import org.bson.codecs.pojo.PojoCodecProvider;
-import org.bson.conversions.Bson;
 import org.immutables.mongo.repository.RepositorySetup;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
 
@@ -27,6 +16,37 @@ public class Main {
 
     public Main(){
         makeBirchForest();
+        addAspens();
+        addSomeWillows();
+        addOak();
+        printForest();
+    }
+
+    private void addAspens() {
+        for (int i = 0; i < 10; i++) {
+            addAspenToRepository(1100 + i, i + 2);
+        }
+    }
+
+    private void addAspenToRepository(int id, int height) {
+        Tree tree = treeFacade.builder()
+                .id(id).height(height)
+                .species(TreeSpecies.ASPEN).build();
+        treeFacade.addOrUpdate(tree);
+    }
+
+    private void addSomeWillows() {
+        Tree tree = treeFacade.builder()
+                .id(800).height(4)
+                .species(TreeSpecies.WILLOW).build();
+        treeFacade.addOrUpdate(tree);
+    }
+
+    private void addOak() {
+        Tree tree = treeFacade.builder()
+                .id(900).height(18)
+                .species(TreeSpecies.OAK).build();
+        treeFacade.addOrUpdate(tree);
     }
 
     private void makeBirchForest() {
@@ -42,5 +62,15 @@ public class Main {
         treeFacade.addOrUpdate(tree);
     }
 
+    private void printForest() {
+        try {
+            List<Tree> list = treeFacade.listAllTrees();
+            for (Tree t: list) {
+                System.out.println(t.toString());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
